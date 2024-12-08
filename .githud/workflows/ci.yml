@@ -1,0 +1,32 @@
+name: CI for Practica Web
+
+# Especifica cuándo debe ejecutarse este flujo
+on:
+  push: # Cuando se hace un push al repositorio
+    branches:
+      - main # Solo se ejecuta en la rama principal
+  pull_request: # También se ejecuta al abrir un pull request
+
+# Define los trabajos a realizar
+jobs:
+  test:
+    runs-on: ubuntu-latest # Máquina virtual que ejecutará el trabajo
+
+    steps:
+      # Paso 1: Descargar el código del repositorio
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Paso 2: Configurar Node.js (necesario para Jest y Puppeteer)
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16' # Versión de Node.js
+
+      # Paso 3: Instalar dependencias
+      - name: Install dependencies
+        run: npm install
+
+      # Paso 4: Ejecutar las pruebas automáticas
+      - name: Run tests
+        run: npm test
